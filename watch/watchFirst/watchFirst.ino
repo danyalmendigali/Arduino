@@ -15,6 +15,7 @@ iarduino_RTC time(RTC_DS1302, 4, 2, 3);  // для модуля DS1302 - RST, CL
 LiquidCrystal_I2C LCD(0x27,16,2);  // присваиваем имя дисплею  
 
 void setup() {
+   pinMode(13, OUTPUT); // объявляем пин 13 как выход
    pinMode(12, OUTPUT); // объявляем пин 13 как выход
    servo1.attach(11);
    delay(300);
@@ -23,6 +24,8 @@ void setup() {
    Serial.begin(9600);
    time.begin();
    time.settime(45, 11, 20, 9, 3, 24, 6); // 0  сек, 30 мин, 18 часов, 12, июня, 2020, четверг
+   digitalWrite(13, HIGH); // зажигаем светодиод
+   servo1.write(100); 
 }
 
 void loop() {
@@ -63,14 +66,12 @@ void loop() {
        LCD.print(s2); 
 
        if(h1 == 2 && h2 == 0 && m1 == 1 && m2 == 2 && s1 == 0 && s2 == 0){
+                  digitalWrite(13, LOW); // выключаем светодиод
                   servo1.write(0); // ставим угол поворота под 0
-                  delay(2000); // ждем 2 секунды
-                  digitalWrite(12, HIGH); // зажигаем светодиод
        }
-       if(h1 == 2 && h2 == 0 && m1 == 1 && m2 == 2 && s1 == 3 && s2 == 0){
-                  servo1.write(90); // ставим угол поворота под 0
-                  delay(2000); // ждем 2 секунды
-                  digitalWrite(12, LOW); // зажигаем светодиод
+       if(h1 == 2 && h2 == 0 && m1 == 1 && m2 == 2 && s1 == 1 && s2 == 0){
+                  servo1.write(120); // ставим угол поворота под 0
+                  digitalWrite(13, HIGH); // выключаем светодиод
                    
        }
       
